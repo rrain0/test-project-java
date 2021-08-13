@@ -25,8 +25,8 @@ public class DecimalNumberFormat {
         System.out.println();
 
         System.out.println(roundUp(555.5, 0));
-        System.out.println(roundUp(555.55, 1)); //косяк
-        System.out.println(roundUp(555.555, 2)); //косяк
+        System.out.println(roundUp(555.55, 1)); // косяк
+        System.out.println(roundUp(555.555, 2)); // косяк
         System.out.println(roundUp(555.5555, 3));
         System.out.println(roundUp(555.55555, 4));
         System.out.println(roundUp(555.555555, 5));

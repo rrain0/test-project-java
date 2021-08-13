@@ -5,10 +5,14 @@ import java.util.Locale;
 
 public class JavaTime {
 
-    // Zoned/Local Date/Time/DateTime
     // Instant
+    // Offset Date/DateTime
+    // Local Date/Time/DateTime
+    // Zoned DateTime
 
     public static void main(String[] args) {
+
+
         {
             //аналогичные методы
             System.out.println(Instant.now().toEpochMilli());
@@ -33,12 +37,18 @@ public class JavaTime {
             LocalDate date = LocalDate.of(2018, Month.APRIL, 20);
         }
 
+        convertToDate();
+
     }
 
     private static void convertToDate(){
         ZonedDateTime zonedDateTime;
+        LocalDate localDate;
         DateTimeFormatter dateTimeFormatter;
+        DateTimeFormatter dateTimeFormatter2;
+        OffsetDateTime offsetDateTime;
         Date date;
+        Instant instant;
 
         zonedDateTime = ZonedDateTime.now();
         dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z['z']'", Locale.ENGLISH);
@@ -63,6 +73,18 @@ public class JavaTime {
         date = Date.from(zonedDateTime.toInstant());
         System.out.println(date);
         System.out.println(date.getTime());
+        System.out.println();
+
+        // from instant (long millis) to any
+        instant = Instant.ofEpochMilli(1628328759000L); // суббота, 7 августа 2021 г., 17:32:39 GMT+08:00
+        dateTimeFormatter2 = DateTimeFormatter.ofPattern("d-M-yyyy");
+        //offsetDateTime = instant.atOffset(ZoneOffset.ofHours(9)); // тоже работает
+        offsetDateTime = OffsetDateTime.ofInstant(instant, ZoneId.of("GMT+8"));
+        zonedDateTime = offsetDateTime.toZonedDateTime();
+        localDate = offsetDateTime.toLocalDate();
+        System.out.println(zonedDateTime);
+        System.out.println(localDate);
+        System.out.println(localDate.format(dateTimeFormatter2));
         System.out.println();
 
 

@@ -1,4 +1,7 @@
 public class PairwiseGenericSum {
+
+    // <?> - означает, что не важно, какой тип, пользоваться им не будем
+
     public static void main(String[] args) {
         System.out.println(pairwiseSum(5, 8, -9, 0));
         System.out.println(pairwiseSum("5", "8", "-9", "0"));
