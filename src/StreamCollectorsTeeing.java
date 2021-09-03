@@ -22,7 +22,7 @@ public class StreamCollectorsTeeing {
     }
 
     public static void collectEventParticipations(){
-        var result =
+        EventParticipation result =
                 Stream.of(
                         // Guest(String name, boolean participating, Integer participantsNumber)
                         new Guest("Marco", true, 3),
