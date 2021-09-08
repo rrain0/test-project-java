@@ -30,9 +30,11 @@ public class StreamCollectorsTeeing {
                         new Guest("Roger",true, 6))
                         .collect(Collectors.teeing(
                                 // Первый коллектор, мы выбираем только тех, кто подтвердил участие
-                                Collectors.filtering(Guest::isParticipating,
-                                        // мы хотим взять только имя в списке
-                                        Collectors.mapping(o -> o.name, Collectors.toList())),
+                                Collectors.filtering(
+                                    // выбираем только тех, кто подтвердил участие
+                                    Guest::isParticipating,
+                                    // мы хотим взять только имя в списке
+                                    Collectors.mapping(o -> o.name, Collectors.toList())),
                                 // второй коллектор, мы хотим найти общее количество участников
                                 Collectors.summingInt(Guest::getParticipantsNumber),
                                 // мы объединяем коллекторы в новый объект,

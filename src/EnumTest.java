@@ -1,6 +1,12 @@
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 public class EnumTest {
+
+
 
     public static void main(String[] args) {
 
@@ -11,7 +17,23 @@ public class EnumTest {
         System.out.println(ValuesEnum.FIRST_VALUE.ordinal());
         System.out.println(ValuesEnum.FIRST_VALUE.toString());
 
+
+        System.out.println(Months.January);
+        System.out.println(Months.February);
+        System.out.println(Months.January.name());
+
+        Months jan = Months.January;
+        String result = switch (jan){
+            case March -> "M";
+            case January,February -> "JF";
+        };
+
+
     }
+
+
+
+
 
     
     private enum ValuesEnum {
@@ -34,5 +56,22 @@ public class EnumTest {
 
         public int getValue() { return value; }
         public void setValue(int value) { this.value = value; }
+    }
+
+
+    private enum Months{
+        January("adsfjklj"), February("Asdf"), March;
+
+        String property;
+
+        Months() {}
+        Months(String property) {
+            this.property = property;
+        }
+
+        @Override
+        public String toString() {
+            return this==Months.January ? "Start of year" : super.toString();
+        }
     }
 }
