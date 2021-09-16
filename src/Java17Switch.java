@@ -18,6 +18,7 @@ public class Java17Switch {
                 break;
             case Integer i && i>6:
                 System.out.println(">6");
+                break;
             default: break;
         }
 
