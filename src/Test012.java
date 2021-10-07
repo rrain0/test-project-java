@@ -17,10 +17,13 @@ public class Test012 {
         s2.tryAdvance(System.out::println);
 
         list.stream().reduce()*/
+
+        String s = "|\\\"|";
+        System.out.println(s);
+        System.out.println(s.replaceAll("\\\\\"", "\""));
+
+
     }
-
-
-
 
 
 }
