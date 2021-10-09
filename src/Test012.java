@@ -18,6 +18,8 @@ public class Test012 {
 
         list.stream().reduce()*/
 
+        System.out.println(.1e-5);
+
 
         String s = "|\\\"|";
         System.out.println(s);
