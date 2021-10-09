@@ -18,6 +18,7 @@ public class Test012 {
 
         list.stream().reduce()*/
 
+
         String s = "|\\\"|";
         System.out.println(s);
         System.out.println(s.replaceAll("\\\\\"", "\""));
