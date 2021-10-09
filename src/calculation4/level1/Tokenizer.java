@@ -2,6 +2,7 @@ package calculation4.level1;
 
 import java.util.*;
 
+import static calculation4.TokensToObjects.staticTokens;
 import static calculation4.Utils.*;
 import static calculation4.level1.Tokens.*;
 
@@ -116,26 +117,26 @@ public class Tokenizer {
 
 
     private StaticToken nextStaticToken(final int s){
-        Set<String> tmpStaticTokens = new HashSet<>(staticTokens);
-        String lastFound = null;
+        Set<String> tmpStaticTokens = new HashSet<>(staticTokens());
+        String found = null;
 
         for (int i = 0; !tmpStaticTokens.isEmpty(); i++) {
             Iterator<String> it = tmpStaticTokens.iterator();
             while (it.hasNext()){
-                String f = it.next();
-                int flen = f.length();
+                String t = it.next();
+                int tLen = t.length();
                 // если название функции минус проверенные символы длиннее множества функций, то проверяем сразу всю функцию
-                if (flen-i > tmpStaticTokens.size()){
-                    if ( substr(expr, s+i, s+flen).equals(substr(f,i,flen)) && flen>len(lastFound) ){
-                        lastFound = f;
+                if (tLen-i > tmpStaticTokens.size()){
+                    if ( substr(expr, s+i, s+tLen).equals(substr(t,i,tLen)) && tLen>len(found) ){
+                        found = t;
                     }
                     it.remove();
                 } else {
                     int eChar = charAt(expr, s+i);
-                    int fChar = charAt(f,i);
-                    if (eChar==-1 || eChar!=fChar) it.remove();
-                    else if (flen==i+1 && flen>len(lastFound)) {
-                        lastFound=f;
+                    int tChar = charAt(t,i);
+                    if (eChar==-1 || eChar!=tChar) it.remove();
+                    else if (tLen==i+1 && tLen>len(found)) {
+                        found=t;
                         it.remove();
                     }
                 }
@@ -143,7 +144,7 @@ public class Tokenizer {
 
         }
 
-        return Optional.ofNullable(lastFound).map(f->new StaticToken(f, s,s+f.length())).orElse(null);
+        return Optional.ofNullable(found).map(f->new StaticToken(f, s,s+f.length())).orElse(null);
     }
 
 

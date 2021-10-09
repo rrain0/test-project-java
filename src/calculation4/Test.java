@@ -3,6 +3,8 @@ package calculation4;
 import calculation4.level1.Token;
 import calculation4.level1.TokenParseException;
 import calculation4.level1.Tokenizer;
+import calculation4.level2.Node;
+import calculation4.level2.Parser;
 
 import java.util.List;
 
@@ -10,6 +12,20 @@ import static calculation4.Utils.listToString;
 
 public class Test {
     public static void main(String[] args) {
+        {
+            String expr = "5+9*5E+2/.1E2";
+            System.out.println("expression: "+expr);
+            try {
+                Tokenizer tokenizer = new Tokenizer(expr, 10);
+                List<Token> tokenList = tokenizer.getTokens();
+                System.out.println(listToString(tokenList));
+                Parser parser = new Parser(tokenList);
+                List<Node> nodeList = parser.getNodeList();
+                System.out.println(listToString(nodeList));
+            } catch (TokenParseException e) {
+                e.printStackTrace();
+            }
+        }
         {
             String expr = "(π/3*9^3*tg(3°))+\n" +
                 "([π/3(9+6*tg(15°))^3/tg(15°)]-[π/3*9^3/tg(15°)])+\n" +
