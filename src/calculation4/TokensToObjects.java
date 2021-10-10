@@ -1,5 +1,6 @@
 package calculation4;
 
+import calculation4.level1.Token;
 import calculation4.level2.*;
 
 import java.util.HashMap;
@@ -17,57 +18,78 @@ public final class TokensToObjects {
 
     public static F pass = args -> args[0];
     public static F minus = args -> Num.minus(args[0],args[1]);
+    public static F negate = args -> Num.negate(args[0]);
     public static F plus = args -> Num.plus(args[0],args[1]);
     public static F mult = args -> Num.mult(args[0],args[1]);
     public static F div = args -> Num.div(args[0],args[1]);
+    public static F down = args -> Num.down(args[0]);
     public static F pow = args -> Num.pow(args[0],args[1]);
     public static F factor = args -> Num.factor(args[0]);
     public static F lg = args -> Num.lg(args[0]);
 
 
+    //private static final Generate gImplicitMult = (t)->new Fun(1,mult,1,IMPLICIT_MULT,"implicit mult", t);
+    public static Node getImplicitMult(Token t, int priority){
+        return new Fun(1,mult,1,priority,"implicit mult", t);
+    }
+
+    //private static final Generate gUnaryMinus = (t)->new Fun(0,negate,1,IMPLICIT_MULT,"implicit mult", t);
+
+    // у унарного минуса/плюса приоритет как у левого оператора, но не ниже чем ADD
+    public static Node getUnaryMinus(Token t, int leftOperatorPriority){
+        return new Fun(0,negate,1,Integer.max(ADD,leftOperatorPriority),"unary minus", t);
+    }
+    public static Node getUnaryPlus(Token t, int leftOperatorPriority){
+        return new Fun(0,pass,1,Integer.max(ADD,leftOperatorPriority),"unary plus", t);
+    }
+    public static Node getUnaryDiv(Token t, int leftOperatorPriority){
+        return new Fun(0,down,1,Integer.max(MULT,leftOperatorPriority),"unary div", t);
+    }
+
+
     public static final Map<String,Generate> staticTokensMap;
     private static void add(String staticToken, Generate o){ staticTokensMap.put(staticToken, o); }
     public static Set<String> staticTokens(){ return staticTokensMap.keySet(); }
-    public static Node getNode(String key){ return staticTokensMap.get(key).generate(); }
+    public static Node getNode(Token t){ return staticTokensMap.get(t.token).generate(t); }
     static {
         staticTokensMap = new HashMap<>();
         Generate g = null;
 
-        g = ()->Num.pi;
+        g = (t)->new Num(Num.pi,t);
         add("π",g);add("pi",g);add("PI",g);
 
-        add("e", ()->Num.e);
+        add("e", (t)->new Num(Num.e,t));
 
-        g = ()->Num.inf;
+        g = (t)->new Num(Num.inf,t);
         add("∞",g);add("inf",g);add("infinity",g);add("Infinity",g);
 
-        g = ()->Num.NaN;
+        g = (t)->new Num(Num.NaN,t);
         add("NaN",g);add("nan",g);
 
-        g = ()->new Fun(0,pass,1,BRACKET);
+        g = (t)->new Fun(0,pass,1,OPEN_BRACKET,"open",t);
         add("(",g);add("[",g);
 
-        g = ()->new Fun(0,pass,0,BRACKET);
+        g = (t)->new Fun(1,pass,0,CLOSE_BRACKET,"close",t);
         add(")",g);add("]",g);
 
         //add("::");
 
-        g = ()->new Fun(1,plus,1,ADD);
+        g = (t)->new Fun(1,plus,1,ADD,"plus", t);
         add("+",g);
 
-        g = ()->new Fun(1,minus,1,ADD);
+        g = (t)->new Fun(1,minus,1,ADD,"minus", t);
         add("-",g);add("−",g); // длинный минус (тире)
 
-        g = ()->new Fun(1,mult,1,MULT);
+        g = (t)->new Fun(1,mult,1,MULT, "mult", t);
         add("*",g);add("×",g);
 
-        g = ()->new Fun(1,div,1,MULT);
+        g = (t)->new Fun(1,div,1,MULT,"div", t);
         add("/",g);add("÷",g);
 
-        g = ()->new Fun(1,pow,1,POW);
+        g = (t)->new Fun(1,pow,1,POW,"pow", t);
         add("^",g);
 
-        g = ()->new Fun(1,factor,1,FACTOR);
+        g = (t)->new Fun(1,factor,0,FACTOR,"factor", t);
         add("!",g);
 
         //add("!!");
@@ -107,7 +129,7 @@ public final class TokensToObjects {
 
         //add("ln");
 
-        g = ()->new Fun(0,lg,1,FUNC);
+        g = (t)->new Fun(0,lg,1,FUNC,"lg", t);
         add("lg",g);
 
         //add("lb");

@@ -1,17 +1,33 @@
 package calculation4.level2;
 
 
+import calculation4.level1.Token;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
 public class Num extends Node {
     public final double v;
 
-    public Num(double v) {this.v = v;}
+    public Num(double v) {
+        super(null);
+        this.v = v;
+    }
+
+    public Num(double v, Token token) {
+        super(token);
+        this.v = v;
+    }
+
+    public Num(Num v, Token token) {
+        super(token);
+        this.v = v.v;
+    }
+
 
     @Override
     public String toString() {
-        return getClass().getSimpleName()+"("+v+")";
+        return getClass().getSimpleName()+"("+v+", up#"+(up==null?null:up.number)+")";
     }
 
     public static Num pi = new Num(Math.PI);
@@ -22,10 +38,12 @@ public class Num extends Node {
     public static Num one = new Num(1.0);
 
 
-    public static Num minus(Num a, Num b){ return a==null ? new Num(-b.v) : new Num(a.v-b.v); }
-    public static Num plus(Num a, Num b){ return a==null ? b : new Num(a.v+b.v); }
+    public static Num minus(Num a, Num b){ return new Num(a.v-b.v); }
+    public static Num negate(Num a) { return new Num(-a.v); }
+    public static Num plus(Num a, Num b){ return new Num(a.v+b.v); }
     public static Num mult(Num a, Num b){ return new Num(a.v*b.v); }
     public static Num div(Num a, Num b){ return new Num(a.v/b.v); }
+    public static Num down(Num a){ return new Num(1/a.v); }
     public static Num pow(Num a, Num b){ return new Num(Math.pow(a.v,b.v)); }
 
     public static Num factor(Num a) {

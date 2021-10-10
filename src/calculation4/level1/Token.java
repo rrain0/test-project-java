@@ -10,8 +10,13 @@ public class Token {
         this.e = e;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return getClass().getSimpleName()+"("+token+", ["+s+","+e+"])";
+    }*/
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName()+"("+token+", "+s+"->"+e+")";
     }
 }

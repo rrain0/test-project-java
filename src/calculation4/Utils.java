@@ -33,8 +33,13 @@ public final class Utils {
         if (list==null) return "null";
         StringBuilder sb = new StringBuilder();
         sb.append('[');
-        list.forEach(e->sb.append(e).append(", "));
-        sb.delete(sb.length()-2, sb.length());
+        for (int i = 0; ; i++) {
+            Object elem = list.get(i);
+            sb.append(elem);
+            if (i==list.size()-1) break;
+            if ((i+1)%1==0) sb.append(",\n");
+            else sb.append(", ");
+        }
         sb.append(']');
         sb.append(" with len ").append(list.size());
         return sb.toString();
@@ -45,5 +50,22 @@ public final class Utils {
         return i<0 || i>=str.length();
     }
 
+    public static <T> T get(List<T> list, int idx){
+        return idx<0 || idx>=list.size() ? null : list.get(idx);
+    }
+
+    public static <T> T getLast(List<T> list, int idx){
+        return idx<0 || idx>=list.size() ? null : list.get(list.size()-idx-1);
+    }
+    public static <T> T getLast(List<T> list){
+        return list.isEmpty() ? null : list.get(list.size()-1);
+    }
+
+    public static <T> T removeLast(List<T> list, int idx){
+        return idx<0 || idx>=list.size() ? null : list.remove(list.size()-idx-1);
+    }
+    public static <T> T removeLast(List<T> list){
+        return list.isEmpty() ? null : list.remove(list.size()-1);
+    }
 
 }

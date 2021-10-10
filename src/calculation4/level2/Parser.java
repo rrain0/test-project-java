@@ -26,7 +26,7 @@ public class Parser {
 
     private void parse(){
         for (var t : tokenList){
-            if (t instanceof StaticToken) nodeList.add(getNode(t.token));
+            if (t instanceof StaticToken) nodeList.add(getNode(t));
             else if (t instanceof NumberToken) nodeList.add(parseNumber((NumberToken)t));
         }
     }
@@ -39,7 +39,7 @@ public class Parser {
         sb.append(']');
         n = n.replaceAll(sb.toString(), "");
         if (nt.radix==10) n = n.replaceAll("E", "e");
-        return new Num(Double.parseDouble(n));
+        return new Num(Double.parseDouble(n), nt);
     }
 
 }

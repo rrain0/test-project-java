@@ -5,6 +5,8 @@ import calculation4.level1.TokenParseException;
 import calculation4.level1.Tokenizer;
 import calculation4.level2.Node;
 import calculation4.level2.Parser;
+import calculation4.level3.Linker;
+import calculation4.level4.Calculator;
 
 import java.util.List;
 
@@ -12,21 +14,22 @@ import static calculation4.Utils.listToString;
 
 public class Test {
     public static void main(String[] args) {
-        {
-            String expr = "5+9*5E+2/.1E2";
-            System.out.println("expression: "+expr);
-            try {
-                Tokenizer tokenizer = new Tokenizer(expr, 10);
-                List<Token> tokenList = tokenizer.getTokens();
-                System.out.println(listToString(tokenList));
-                Parser parser = new Parser(tokenList);
-                List<Node> nodeList = parser.getNodeList();
-                System.out.println(listToString(nodeList));
-            } catch (TokenParseException e) {
-                e.printStackTrace();
-            }
-        }
-        {
+        //testExpression("55e+1");
+        //testExpression("55e55elg6");
+        //testExpression("(((/3^9-6^-2+6*3)))");
+        //testExpression("(((/3^9-6^-2(-3*8))))");
+        //testExpression("(((/3^9-(6^-2)(-3*8))))");
+        //testExpression("(((/3^9-6^-2e)))");
+        //testExpression("(((/3^9-6^-2!e)))");
+        testExpression("lg100lg1000^2");
+        testExpression("lg100lg(1000)^2");
+        testExpression("lg100lg^2(1000)");
+        testExpression("lg100lg^2::1000");
+        //testExpression("3!e");
+        /*testExpression("55e55elg6E+1+/4^9^-7(5+6)");
+        testExpression("5+9*5E+2/.1E2");*/
+
+        /*{
             String expr = "(π/3*9^3*tg(3°))+\n" +
                 "([π/3(9+6*tg(15°))^3/tg(15°)]-[π/3*9^3/tg(15°)])+\n" +
                 "([π/3(9+6*tg(15°))^3*tg(3°)]-[π/3*10^2(10*tg(3°))])+\n" +
@@ -91,7 +94,7 @@ public class Test {
             } catch (TokenParseException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
         /*{
             String expr = "+sintanNtanhlogloglogloglogloglog/loglog2log";
@@ -104,7 +107,7 @@ public class Test {
             }
         }*/
 
-        {
+        /*{
             String expr = "+sin(tan)tanh+++)logloglogloglogloglog/ loglog2log";
             System.out.println("expression: "+expr);
             try {
@@ -114,6 +117,30 @@ public class Test {
             } catch (TokenParseException e) {
                 e.printStackTrace();
             }
+        }*/
+    }
+
+    private static void testExpression(String expr){
+        System.out.println("expression: "+expr);
+        try {
+            Tokenizer tokenizer = new Tokenizer(expr, 10);
+            List<Token> tokenList = tokenizer.getTokens();
+            //System.out.println(listToString(tokenList));
+
+            Parser parser = new Parser(tokenList);
+            List<Node> nodeList = parser.getNodeList();
+            //System.out.println(listToString(nodeList));
+
+            Linker linker = new Linker(nodeList);
+            nodeList = linker.getNodeList();
+            System.out.println(listToString(nodeList));
+
+            Calculator calculator = new Calculator(nodeList);
+            System.out.println(calculator.calculate());
+
+            System.out.println();
+        } catch (TokenParseException e) {
+            e.printStackTrace();
         }
     }
 }
