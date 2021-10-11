@@ -10,6 +10,8 @@ public class EnumTest {
 
     public static void main(String[] args) {
 
+        System.out.println(Arrays.toString(E.names));
+
         System.out.println(ValuesEnum.valueOf("FIRST_VALUE"));
         System.out.println(ValuesEnum.valueOf(ValuesEnum.class, "FIRST_VALUE")); // то же, что и ValuesEnum.valueOf("FIRST_VALUE")
         System.out.println(Arrays.toString(ValuesEnum.values()));
@@ -28,11 +30,35 @@ public class EnumTest {
             case January,February -> "JF";
         };
 
-
     }
 
 
 
+    static enum E {
+        FIRST("first"),
+        SECOND("second"),
+        ;
+
+        public final String name;
+
+        E (String name) {
+            this.name = name;
+            // names.length // нет доступа к статическим членам енама из конструктора - значит статик идёт после создания объектов енама
+        }
+
+
+
+
+        // у енамов сначала создаются объекты енама, а потом он статически инициализируется
+        static String[] names;
+        static {
+            names = new String[E.values().length];
+            for (int i = 0; i < values().length; i++) {
+                names[i] = values()[i].name;
+            }
+        }
+
+    }
 
 
     

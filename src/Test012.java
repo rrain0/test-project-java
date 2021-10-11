@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.List;
 import java.util.Spliterator;
 
@@ -16,6 +17,17 @@ public class Test012 {
     s2.tryAdvance(System.out::println);
 
     list.stream().reduce()*/
+
+
+    public static void main(String[] args) {
+
+    }
+
+
+
+
+
+
 
 
 }
