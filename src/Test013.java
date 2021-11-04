@@ -1,29 +1,53 @@
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Test013 {
     public static void main(String[] args) {
 
-        List<Integer> list = Stream.iterate(0, i -> i+2).limit(10000000).collect(Collectors.toList());
+        Map<Token,Object> map = new HashMap<>();
 
-        long time;
 
-        {
-            time = System.currentTimeMillis();
-            int[] ints = list.stream().mapToInt(i -> i).toArray();
-            System.out.println(System.currentTimeMillis()-time);
+        map.put(new Token("aaa", 100L), "jjjj");
+        map.forEach((k,v)->{
+            System.out.println(k);
+            System.out.println(v);
+        });
+        map.put(new Token("aaa", 0L), "jjjj");
+        map.forEach((k,v)->{
+            System.out.println(k);
+            System.out.println(v);
+        });
+        map.computeIfPresent(new Token("aaa", 100L), (t,v)->{
+            return null;
+        });
+        map.forEach((k,v)->{
+            System.out.println(k);
+            System.out.println(v);
+        });
+
+    }
+
+    private static record Token(
+        String token, Long time
+    ){
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Token token1 = (Token) o;
+            return Objects.equals(token, token1.token);
         }
 
-        {
-            time = System.currentTimeMillis();
-            int[] ints = new int[list.size()];
-            for (int i = 0; i < list.size(); i++) {
-                ints[i] = list.get(i);
-            }
-            System.out.println(System.currentTimeMillis()-time);
+        @Override
+        public int hashCode() {
+            return Objects.hash(token);
         }
-
-
     }
 }
