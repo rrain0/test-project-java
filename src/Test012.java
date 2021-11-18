@@ -1,3 +1,4 @@
+import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Spliterator;
@@ -20,6 +21,23 @@ public class Test012 {
 
 
     public static void main(String[] args) {
+
+        List<String> list = List.of("kldsajflkjas");
+
+        Arrays.stream(list.getClass().getGenericInterfaces()).forEach(System.out::println);
+
+        //Arrays.stream(list.getClass().getGenericSuperclass()).forEach(System.out::println);
+
+        System.out.println(list.getClass().getGenericSuperclass());
+
+        /*System.out.println(
+            ((ParameterizedType)list.getClass().getGenericInterfaces())
+                .getActualTypeArguments()[0]
+        );*/
+
+        /*Class<T> persistentClass = (Class<T>)
+            ((ParameterizedType)getClass().getGenericSuperclass())
+                .getActualTypeArguments()[0];*/
 
     }
 
