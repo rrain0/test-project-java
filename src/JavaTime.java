@@ -96,4 +96,24 @@ public class JavaTime {
         LocalDateTime localDateTime = zonedDateTime.toLocalDateTime();
         System.out.println(localDateTime);*/
     }
+
+
+    private static Long convertYyyyMMddHHmmssSSSGmt3ToTimestamp(String dateTimeRaw){
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+            LocalDateTime dateTime = LocalDateTime.parse(dateTimeRaw, formatter);
+            ZonedDateTime toZoned = dateTime.atZone(ZoneId.of("GMT+3"));
+            Long timestamp = toZoned.toInstant().toEpochMilli();
+            return timestamp;
+        } catch (Exception e) {
+            /*e.printStackTrace();*/
+        }
+        return null;
+    }
+
+
+
+
+
+
 }
