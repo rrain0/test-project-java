@@ -22,6 +22,11 @@ public class Test012 {
 
     public static void main(String[] args) {
 
+        System.out.println(null instanceof String);
+
+
+
+
         List<String> list = List.of("kldsajflkjas");
 
         Arrays.stream(list.getClass().getGenericInterfaces()).forEach(System.out::println);
