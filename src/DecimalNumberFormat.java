@@ -38,5 +38,11 @@ public class DecimalNumberFormat {
     }
 
 
+    /*
+        проверить через <BigDecimal>.multiply(<BigDecimal>).setScale(2, RoundingMode.HALF_UP)
+        38602.08 * 0.175 => 6755.364 => 6755.34 ?? надо 6755.35
+     */
+
+
 
 }
