@@ -1,6 +1,5 @@
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,12 +7,13 @@ import java.util.regex.Pattern;
 
 
 
-public class StringRegexpSplit {
+public class RegexpSplit {
 
     public static void main(String[] args) {
         //splitTest();
         //patternMatchingTest();
-        patternMatchingWithGroupsTest();
+        cityPatternTest();
+        //patternMatchingWithGroupsTest();
     }
 
     private static void splitTest(){
@@ -24,6 +24,30 @@ public class StringRegexpSplit {
             System.out.println(Arrays.toString(splitted) + " with len "+splitted.length);
         });
     }
+
+
+    private static void cityPatternTest(){
+        Pattern cityPattern = Pattern.compile("^ *((гор)|(г))?\\.? ?(?<city>([^. ].*[^. ]))[. ]*$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+
+        var city = List.of("г Иркутск", "гор.Иркутск", " иркутск.", "Г Иркутск");
+
+        /*
+        In the official release of Java 7, the constructs to support the named capturing group are:
+        => (?<name>capturing text) to define a named group "name"
+        => \k<name> to backreference a named group "name"
+        => ${name} to reference to captured group in Matcher's replacement string
+        => Matcher.group(String name) to return the captured input subsequence by the given "named group".
+         */
+
+        city.stream()
+            .map(cityPattern::matcher)
+            .forEach(m->{
+                boolean find = m.find(); // find attempts to find next match in given string
+                System.out.println(find);
+                if (find) System.out.println(m.group("city"));
+            });
+    }
+
 
     private static void patternMatchingTest(){
         {
