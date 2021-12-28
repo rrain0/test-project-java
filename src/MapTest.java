@@ -16,9 +16,31 @@ public class MapTest {
         System.out.println(Map.of("a",1, "b",2));
         System.out.println(Map.of("b",2, "a",1));
 
+    }
+
+
+
+    private static void mapKeyUpdationTest(){
+        record Token(
+            String token, Long time
+        ){
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                Token token1 = (Token) o;
+                return Objects.equals(token, token1.token);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(token);
+            }
+        }
+
+        // ключ как объект не обновится в мапе, пока не удалить и снова не положить туда Entry
 
         Map<Token,Object> map = new HashMap<>();
-
 
         map.put(new Token("aaa", 100L), "jjjj");
         map.forEach((k,v)->{
@@ -40,20 +62,5 @@ public class MapTest {
 
     }
 
-    private static record Token(
-        String token, Long time
-    ){
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Token token1 = (Token) o;
-            return Objects.equals(token, token1.token);
-        }
 
-        @Override
-        public int hashCode() {
-            return Objects.hash(token);
-        }
-    }
 }
