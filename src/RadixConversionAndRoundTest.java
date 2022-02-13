@@ -17,6 +17,32 @@ public class RadixConversionAndRoundTest {
         System.out.println(bd1);
 
 
+        System.out.println("HALF UP: Зеркально от нуля в сторону бесконечностей если остаток >= 5");
+        System.out.println(new BigDecimal("+123.3").setScale(0,RoundingMode.HALF_UP));
+        System.out.println(new BigDecimal("+123.5").setScale(0,RoundingMode.HALF_UP));
+        System.out.println(new BigDecimal("+123.7").setScale(0,RoundingMode.HALF_UP));
+        System.out.println(new BigDecimal("-123.3").setScale(0,RoundingMode.HALF_UP));
+        System.out.println(new BigDecimal("-123.5").setScale(0,RoundingMode.HALF_UP));
+        System.out.println(new BigDecimal("-123.7").setScale(0,RoundingMode.HALF_UP));
+
+
+        System.out.println("FLOOR: В сторону минус бесконечности при любом остатке");
+        System.out.println(new BigDecimal("+123.3").setScale(0,RoundingMode.FLOOR));
+        System.out.println(new BigDecimal("+123.5").setScale(0,RoundingMode.FLOOR));
+        System.out.println(new BigDecimal("+123.7").setScale(0,RoundingMode.FLOOR));
+        System.out.println(new BigDecimal("-123.3").setScale(0,RoundingMode.FLOOR));
+        System.out.println(new BigDecimal("-123.5").setScale(0,RoundingMode.FLOOR));
+        System.out.println(new BigDecimal("-123.7").setScale(0,RoundingMode.FLOOR));
+
+
+        System.out.println("DOWN: Зеркально к нулю при любом остатке");
+        System.out.println(new BigDecimal("+123.3").setScale(0,RoundingMode.DOWN));
+        System.out.println(new BigDecimal("+123.5").setScale(0,RoundingMode.DOWN));
+        System.out.println(new BigDecimal("+123.7").setScale(0,RoundingMode.DOWN));
+        System.out.println(new BigDecimal("-123.3").setScale(0,RoundingMode.DOWN));
+        System.out.println(new BigDecimal("-123.5").setScale(0,RoundingMode.DOWN));
+        System.out.println(new BigDecimal("-123.7").setScale(0,RoundingMode.DOWN));
+
     }
 
     public static double roundUp(double number, int digits) throws Exception{
