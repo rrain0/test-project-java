@@ -25,11 +25,21 @@ public class JavaTime {
             long timeMills = time.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
         }
 
+        // паттерн со временем нельзя применить только к дате - будет эксепшн
+        /*{
+            //форматирование даты времени
+            ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.systemDefault());
+            DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH); //2020-08-26T06:53:27.609+0000
+            String t = zonedDateTime.format(f);
+            System.out.println(t);
+        }*/
+
         {
             //форматирование даты времени
-            ZonedDateTime time = ZonedDateTime.now(ZoneId.systemDefault());
+            LocalDate localDate = ZonedDateTime.now(ZoneId.systemDefault()).toLocalDate();
             DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH); //2020-08-26T06:53:27.609+0000
-            String t = time.format(f);
+            String t = localDate.format(f);
+            System.out.println("LocalDate formatted:");
             System.out.println(t);
         }
 

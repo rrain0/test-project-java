@@ -25,7 +25,7 @@ public class Java13TextBlocks {
         System.out.println(s3);
         System.out.println("----------------------------------");
 
-        // \<line-terminator> подаляет вставку новой строки, экранируется им же самим
+        // \<line-terminator> подавляет вставку новой строки, экранируется им же самим
         String literal = """
                 Lorem ipsum dolor sit amet, \
                 consecteur adipiscing elit, \

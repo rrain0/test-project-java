@@ -36,7 +36,7 @@ public class EnumTest {
 
     static enum E {
         FIRST("first"),
-        SECOND("second"),
+        SECOND("second")
         ;
 
         public final String name;
@@ -66,7 +66,7 @@ public class EnumTest {
         // нельзя FIRST_VALUE = <что-то>,
         FIRST_VALUE,
         SECOND_VALUE,
-        THIRD_VALUE;
+        THIRD_VALUE,name;
     }
 
     private enum ValuesEnum2 {
