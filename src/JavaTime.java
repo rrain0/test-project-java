@@ -6,12 +6,13 @@ import java.util.Locale;
 public class JavaTime {
 
     // Instant
-    // Offset Date/DateTime
     // Local Date/Time/DateTime
-    // Zoned DateTime
+    // Offset Date/DateTime - просто оффсет от UTC
+    // Zoned DateTime - оффсет от UTC + правила таймзоны (например daylight saving)
 
     public static void main(String[] args) {
 
+        testZonedDateTime();
 
         {
             //аналогичные методы
@@ -37,7 +38,10 @@ public class JavaTime {
         {
             //форматирование даты времени
             LocalDate localDate = ZonedDateTime.now(ZoneId.systemDefault()).toLocalDate();
-            DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH); //2020-08-26T06:53:27.609+0000
+            DateTimeFormatter f = DateTimeFormatter.ofPattern(
+                    "yyyy-MM-dd'T'HH:mm:ss.SSSZ", //2020-08-26T06:53:27.609+0000
+                    Locale.ENGLISH
+            );
             String t = localDate.format(f);
             System.out.println("LocalDate formatted:");
             System.out.println(t);
@@ -108,6 +112,7 @@ public class JavaTime {
     }
 
 
+    // GET Long TIMESTAMP millis
     private static Long convertYyyyMMddHHmmssSSSGmt3ToTimestamp(String dateTimeRaw){
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
@@ -122,7 +127,48 @@ public class JavaTime {
     }
 
 
+    private static void testZonedDateTime(){
+        System.out.println("Test ZonedDateTime:");
+        Instant instant = Instant.now();
 
+        Clock clockZoned = Clock.fixed(instant, ZoneId.of("America/New_York")); // you have provided zone with daylight saving rules
+        Clock clockUtcOffset = Clock.fixed(instant, ZoneId.of("-04:00")); // you have provided just offset without any zone rules
+        // UTC+xx:xx GMT+xx:xx +xx:xx - just offsets, not timezones
+        // America/New_York - timezone with daylight saving rules, not just offset
+
+        OffsetDateTime offsetDateTimeFromZoned = OffsetDateTime.now(clockZoned);
+        ZonedDateTime zonedDateTimeFromZoned = ZonedDateTime.now(clockZoned);
+
+        OffsetDateTime offsetDateTimeFromUtcOffset = OffsetDateTime.now(clockUtcOffset);
+        ZonedDateTime zonedDateTimeFromUtcOffset = ZonedDateTime.now(clockUtcOffset);
+
+        System.out.println(offsetDateTimeFromZoned);        // 2023-06-17T07:21:52.067530900-04:00
+        System.out.println(zonedDateTimeFromZoned);         // 2023-06-17T07:21:52.067530900-04:00[America/New_York]
+        System.out.println(offsetDateTimeFromUtcOffset);    // 2023-06-17T07:21:52.067530900-04:00
+        System.out.println(zonedDateTimeFromUtcOffset);     // 2023-06-17T07:21:52.067530900-04:00
+        System.out.println();
+
+        OffsetDateTime offsetZonedPlusSixMonths = offsetDateTimeFromZoned.plusMonths(6);
+        ZonedDateTime zonedDateTimeZonedPlusSixMonths = zonedDateTimeFromZoned.plusMonths(6);
+        OffsetDateTime offsetUtcOffsetPlusSixMonths = offsetDateTimeFromUtcOffset.plusMonths(6);
+        ZonedDateTime zonedDateTimeUtcOffsetPlusSixMonths = zonedDateTimeFromUtcOffset.plusMonths(6);
+
+        System.out.println(offsetZonedPlusSixMonths);               // 2023-12-17T07:21:52.067530900-04:00
+        System.out.println(zonedDateTimeZonedPlusSixMonths);        // 2023-12-17T07:21:52.067530900-05:00[America/New_York]
+        System.out.println(zonedDateTimeZonedPlusSixMonths.toEpochSecond() - offsetZonedPlusSixMonths.toEpochSecond()); // 3600
+        System.out.println(offsetUtcOffsetPlusSixMonths);           // 2023-12-17T07:21:52.067530900-04:00
+        System.out.println(zonedDateTimeUtcOffsetPlusSixMonths);    // 2023-12-17T07:21:52.067530900-04:00
+        System.out.println(zonedDateTimeUtcOffsetPlusSixMonths.toEpochSecond() - offsetUtcOffsetPlusSixMonths.toEpochSecond()); // 0
+
+        System.out.println();
+        System.out.println(zonedDateTimeZonedPlusSixMonths.toLocalDateTime());      // 2023-12-17T07:21:52.067530900
+        System.out.println(offsetZonedPlusSixMonths.toLocalDateTime());             // 2023-12-17T07:21:52.067530900
+        System.out.println(zonedDateTimeUtcOffsetPlusSixMonths.toLocalDateTime());  // 2023-12-17T07:21:52.067530900
+        System.out.println(offsetUtcOffsetPlusSixMonths.toLocalDateTime());         // 2023-12-17T07:21:52.067530900
+
+        System.out.println();
+        System.out.println();
+    }
 
 
 
