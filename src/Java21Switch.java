@@ -6,7 +6,7 @@ public class Java21Switch {
         // Java 13+
         // switch can return value (new lambda syntax)
         int switchResult1 = switch (getInteger()) {
-            case 6,7 -> 10;
+            case 6, 7 -> 10;
             case Integer i when i > 6 -> 20;
             default -> { System.out.println("default"); yield 100; }
         };
@@ -31,7 +31,7 @@ public class Java21Switch {
         }
 
         switch (getInteger()) {
-            case 6,7:
+            case 6, 7:
                 System.out.println("6 or 7");
                 break;
             case Integer i when i > 6:
